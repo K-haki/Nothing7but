@@ -3,6 +3,8 @@
 #include<bits/stdc++.h>
 using namespace std;
 typedef long long int ll;
+// FILE *p;
+char ex='0'; //用于补全不够位数的二进制数
 string ip_rule="";//用于存储转换二进制后的规则IP网络前缀
 int ip_chansform(void);//转换规则IP，返回前缀长度
 // void chansform(int c,char *a); //函数1：IP地址十进制表示转换成点分十进制表示(参数1：IP十进制 ， 参数2：存储转换后的点分十进制IP地址的字符数组地址)
@@ -30,24 +32,52 @@ int judge(int a, int b, int c, int d, int e); //遍历规则集，以五元组�
 }*/
 
 int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
+    cout.flush();
     freopen("input.txt","r",stdin);
     freopen("out.txt","w",stdout);
     char cip_1[35],cip_2[35];//cip_1[]和cip_2[]用于存储转换后的IP地址
-    ll ip_1,ip_2,ans,i;
+    ll ip_1,ip_2,ans,i,j;
     int port_1,port_2,tcp,tcp_r,port_r1,port_r2;
     int check_1,check_2,check_3,check_4,check_5;
     while(cin>>ip_1>>ip_2){
-        int f=0,cnt=0;//  f标记是否遍历规则集仍无法匹配而直接进入下一条数据的匹配；
+    //    cin.clear();
+    //    freopen("input.txt","r",stdin);
+        int f=0,cnt=0,l1,l2;//  f标记是否遍历规则集仍无法匹配而直接进入下一条数据的匹配；
         ltoa(ip_1,cip_1,2);
         ltoa(ip_2,cip_2,2);
-    //    cout<<cip_1<<" "<<cip_2<<endl;
+        cout<<strlen(cip_1)<<strlen(cip_2)<<endl;
+        l1=strlen(cip_1);
+        l2=strlen(cip_2);
+        if(strlen(cip_1)<32){
+            for(j=l1-1;j>=0;j--){
+                cip_1[j+32-l1]=cip_1[j];
+            }
+            for(j=0;j<=31-l1;j++){
+                cip_1[j]='0';
+            }
+            cip_1[32]='\0';
+        }
+        if(strlen(cip_2)<32){
+            for(j=l2-1;j>=0;j--){
+                cip_2[j+32-l2]=cip_2[j];
+            }
+            for(j=0;j<=31-l2;j++){
+                cip_2[j]='0';
+            }
+            cip_2[32]='\0';
+        }
+        cout<<cip_1<<" "<<cip_2<<endl;
+        cin.clear();
+        freopen("rule1.txt","r",stdin);
         do{
-            freopen("rule1.txt","r",stdin);
+            
             check_1=ip_check(cip_1);
             check_2=ip_check(cip_2);
             cout<<check_1<<" "<<check_2<<endl;
             if(check_1&&check_2) break; //记得用judge换过来
-            else if(check_1==-1){
+            else if(check_1==-1||check_2==-1){
                 f=1;
                 break;
             }
@@ -65,28 +95,31 @@ int main(){
 
 int ip_chansform(void){//只读一条规则
     int a[6],step,i=0,j;
-    char x,s[10],ex='0';
-    while(cin>>x>>a[i]){
+    char x,s[10];
+    cin>>x;
+//    getc(p);
+//    if(feof(p)) return -1;
+    while(cin>>a[i]>>x){
         ltoa(a[i],s,2);
         if(strlen(s)<8){
             for(j=0;j<8-strlen(s);j++){
                 ip_rule+=ex;
             }
         }
-        cout<<s<<endl;
+//        cout<<s<<endl;
         ip_rule+=s;
         if(i>=3) break;
         i++;
     }
     if(i<3) return -1; 
-    cin>>x>>step;
+//    cin>>step;
     return step;
 }
 
 int ip_check(char a[]){
     ip_rule="";
     int t=ip_chansform(),i;
-    cout<<t<<endl;
+//    cout<<t<<endl;
     cout<<ip_rule<<" ";
     if(t==-1) return -1;
     for(int i=0;i<t;i++){
