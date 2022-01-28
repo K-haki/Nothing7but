@@ -1,9 +1,7 @@
 ```c++
-
 #include<bits/stdc++.h>
 using namespace std;
 typedef long long int ll;
-FILE *p;
 char ex='0'; //用于补全不够位数的二进制数
 string ip_rule="";//用于存储转换二进制后的规则IP网络前缀
 int ip_chansform(void);//转换规则IP，返回前缀长度
@@ -14,7 +12,7 @@ int tcp_check(int t); //函数4：检测传输协议是否匹配，并以0/1作�
 int judge(int a, int b, int c, int d, int e); //遍历规则集，以五元组作为参数传入，调用函数2/3/4并判断其返回是否都为1，
                                //若是，则返回规则编号；若否，则返回-2，继续循环读入下一条rule，再次调用函数2/3/4继续判断；
                                //check_1的值为-1,表示此时编号已经为规则集内最大，则返回-1
-int stot(char *p,float length);//十六进制转换十进制
+int stot(char *p,float length);
 
 
 
@@ -31,22 +29,20 @@ int stot(char *p,float length);//十六进制转换十进制
 }*/
 
 int main(){
-    ios::sync_with_stdio(0);
-    cin.tie(0); cout.tie(0);
-    cout.flush();
-    freopen("input.txt","r",stdin);
+//    ios::sync_with_stdio(0);
+//    cin.tie(0); cout.tie(0);
+//    cout.flush();
+    fpos_t pos_1=0,pos_2=0;
+    FILE *p=freopen("input.txt","r",stdin);
     freopen("out.txt","w",stdout);
-    char cip_1[35],cip_2[35];//cip_1[]和cip_2[]用于存储转换后的IP地址
-    ll ip_1,ip_2,ans,i,j,port_1,port_2,tcp;
+    char cip_1[35],cip_2[35],waste;//cip_1[]和cip_2[]用于存储转换后的IP地址
+    ll ip_1,ip_2,ans,i,j,port_1,port_2,tcp,k=0;
     int check_1,check_2,check_3,check_4,check_5;
     while(cin>>ip_1,cin>>ip_2,cin>>port_1,cin>>port_2,cin>>tcp){
         cout<<ip_1<<" "<<ip_2<<" "<<port_1<<" "<<port_2<<" "<<tcp<<endl;
-        cin.clear();
-        freopen("input.txt","r",stdin);
         int f=0,cnt=0,l1,l2;//  f标记是否遍历规则集仍无法匹配而直接进入下一条数据的匹配；
         ltoa(ip_1,cip_1,2);
         ltoa(ip_2,cip_2,2);
-        cout<<strlen(cip_1)<<strlen(cip_2)<<endl;
         l1=strlen(cip_1);
         l2=strlen(cip_2);
         if(strlen(cip_1)<32){
@@ -67,12 +63,12 @@ int main(){
             }
             cip_2[32]='\0';
         }
-//        cout<<cip_1<<" "<<cip_2<<endl;
+        cout<<cip_1<<" "<<cip_2<<endl;
+        fgetpos(p,&pos_1);
         cin.clear();
-        p=freopen("rule1.txt","r",stdin);
-        rewind(p);
-        do{
-            
+        FILE *p2=freopen("rule1.txt","r",stdin);
+//        rewind(p);
+        while(cin>>waste){
             check_1=ip_check(cip_1);
             check_2=ip_check(cip_2);
             check_3=port_check(port_1);
@@ -87,22 +83,27 @@ int main(){
             else{
                 cnt++;
             }
-        }while(1);
+        }
         if(f) cout<<"-1"<<endl;
         else cout<<cnt<<endl;
+    /*  if(cin.rdstate()!=ios_base::eofbit){
+            cout<<"end"<<endl;
+            return 0;
+        }*/
+        cin.clear();
+        freopen("input.txt","r",stdin);
+        fsetpos(p,&pos_1);
     }
-    fclose(stdin);
-    fclose(stdout);
     return 0;
-}
+} 
 
 int ip_chansform(void){//只读一条规则
     int a[6],step,i=0,j;
     char x,s[10];
-    cin>>x;
 //    getc(p);
 //    if(feof(p)) return -1;
     while(cin>>a[i]>>x){
+        cout<<"\n"<<"a["<<i<<"]="<<a[i]<<" x="<<x<<endl;
         ltoa(a[i],s,2);
         if(strlen(s)<8){
             for(j=0;j<8-strlen(s);j++){
@@ -135,17 +136,18 @@ int ip_check(char a[]){
 int port_check(int p){
     int l,r;
     char x;
-    cin>>x>>l>>x>>x>>x>>r;
+    cin>>l>>x>>r;
+    cout<<"l="<<l<<"r="<<r<<endl;
     if(p>=l&&p<=r) return 1;
     else return 0;
 }
 
 int tcp_check(int t){
-    char l[5],r[5],x;
+    char l[5],r[5],x,y;
     int i,b=0,e=0;
-    cin>>x>>x>>l[0]>>l[1];
+    cin>>x>>y>>l[0]>>l[1];
     cin>>x;
-    cin>>x>>x>>r[0]>>r[1];
+    cin>>x>>y>>r[0]>>r[1];
     b=stot(l,2);
     e=stot(r,2);
     if(t>=b&&t<=e) return 1;
@@ -163,5 +165,4 @@ int stot(char *p,float length){
     }
     return sum;
 }
-
 ```
