@@ -149,23 +149,27 @@ int tcp_check(int t){
     char l[5],r[5],x,y;
     int i,b=0,e=0;
     cin>>x>>y>>l[0]>>l[1];
+//    cout<<l[0]<<l[1]<<endl;
     cin>>x;
     cin>>x>>y>>r[0]>>r[1];
+//    cout<<r[0]<<r[1]<<endl;
+    if(r[0]=='0'&&r[1]=='0') return 1;
     b=stot(l,2);
-    e=stot(r,2);
-    if(t>=b&&t<=e) return 1;
+//    e=stot(r,2);
+    if(t==b) return 1;
     else return 0;
 }
 
 int stot(char *p,float length){
-    int sum=0,i;
-    for(i=0;i<length;i++){
+    int sum=0,i,t=length;
+    for(i=0;i<t;i++){
         if(p[i]>='0'&&p[i]<='9'){
             sum+=(p[i]-'0')*pow(16,--length);
         }else if(p[i]>='A'&&p[i]<='F'){
             sum+=(p[i]-'A'+10)*pow(16,--length);
         }
     }
+//    cout<<sum<<endl;
     return sum;
 }
 ```
