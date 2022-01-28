@@ -93,7 +93,9 @@ int main(){
         cin.clear();
         freopen("input.txt","r",stdin);
         fsetpos(p,&pos_1);
+        k++;
     }
+    if(k==3) return 0;
     return 0;
 } 
 
@@ -103,7 +105,7 @@ int ip_chansform(void){//只读一条规则
 //    getc(p);
 //    if(feof(p)) return -1;
     while(cin>>a[i]>>x){
-        cout<<"\n"<<"a["<<i<<"]="<<a[i]<<" x="<<x<<endl;
+//        cout<<"\n"<<"a["<<i<<"]="<<a[i]<<" x="<<x<<endl;
         ltoa(a[i],s,2);
         if(strlen(s)<8){
             for(j=0;j<8-strlen(s);j++){
@@ -122,11 +124,11 @@ int ip_chansform(void){//只读一条规则
 
 int ip_check(char a[]){
     ip_rule="";
-    int t=ip_chansform(),i;
+    int t=ip_chansform(),i=0;
 //    cout<<t<<endl;
 //    cout<<ip_rule<<" ";
     if(t==-1) return -1;
-    for(int i=0;i<t;i++){
+    for(i=0;i<t;i++){
         if(a[i]!=ip_rule[i]) break;
     }
     if(i==t) return 1;
@@ -137,7 +139,7 @@ int port_check(int p){
     int l,r;
     char x;
     cin>>l>>x>>r;
-    cout<<"l="<<l<<"r="<<r<<endl;
+//    cout<<"l="<<l<<"r="<<r<<endl;
     if(p>=l&&p<=r) return 1;
     else return 0;
 }
