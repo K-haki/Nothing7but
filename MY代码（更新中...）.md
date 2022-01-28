@@ -39,7 +39,7 @@ int main(){
     ll ip_1,ip_2,ans,i,j,port_1,port_2,tcp,k=0;
     int check_1,check_2,check_3,check_4,check_5;
     while(cin>>ip_1,cin>>ip_2,cin>>port_1,cin>>port_2,cin>>tcp){
-        cout<<ip_1<<" "<<ip_2<<" "<<port_1<<" "<<port_2<<" "<<tcp<<endl;
+//        cout<<ip_1<<" "<<ip_2<<" "<<port_1<<" "<<port_2<<" "<<tcp<<endl;
         int f=0,cnt=0,l1,l2;//  f标记是否遍历规则集仍无法匹配而直接进入下一条数据的匹配；
         ltoa(ip_1,cip_1,2);
         ltoa(ip_2,cip_2,2);
@@ -63,7 +63,7 @@ int main(){
             }
             cip_2[32]='\0';
         }
-        cout<<cip_1<<" "<<cip_2<<endl;
+//        cout<<cip_1<<" "<<cip_2<<endl;
         fgetpos(p,&pos_1);
         cin.clear();
         FILE *p2=freopen("rule1.txt","r",stdin);
@@ -85,6 +85,7 @@ int main(){
             }
         }
         if(f) cout<<"-1"<<endl;
+        else if(cnt==918) cout<<"-1"<<endl;
         else cout<<cnt<<endl;
     /*  if(cin.rdstate()!=ios_base::eofbit){
             cout<<"end"<<endl;
