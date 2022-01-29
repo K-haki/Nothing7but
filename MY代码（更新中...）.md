@@ -12,7 +12,7 @@ int tcp_check(int t); //函数4：检测传输协议是否匹配，并以0/1作�
 int judge(int a, int b, int c, int d, int e); //遍历规则集，以五元组作为参数传入，调用函数2/3/4并判断其返回是否都为1，
                                //若是，则返回规则编号；若否，则返回-2，继续循环读入下一条rule，再次调用函数2/3/4继续判断；
                                //check_1的值为-1,表示此时编号已经为规则集内最大，则返回-1
-int stot(char *p,float length);
+int stot(char *p,float length);//十六进制转换十进制
 
 
 
